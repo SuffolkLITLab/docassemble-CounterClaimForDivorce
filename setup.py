@@ -45,7 +45,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
 setup(name='docassemble.CounterClaimForDivorce',
       version='0.0.1',
       description=('A docassemble extension.'),
-      long_description='This form is for individuals who would like to file a counter claim to a divorce complaint.',
+      long_description='Counterclaim for Divorce form to be used in Massachusetts, USA.',
       long_description_content_type='text/markdown',
       author='Tanner Murphy',
       author_email='jmurphy10@su.suffolk.edu',

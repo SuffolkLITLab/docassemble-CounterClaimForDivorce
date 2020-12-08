@@ -1,1 +1,1 @@
-This form is for individuals who would like to file a counter claim to a divorce complaint.
+Counterclaim for Divorce form to be used in Massachusetts, USA.
