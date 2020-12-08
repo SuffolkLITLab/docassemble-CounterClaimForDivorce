@@ -45,7 +45,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
 setup(name='docassemble.CounterClaimForDivorce',
       version='0.0.1',
       description=('A docassemble extension.'),
-      long_description='# docassemble.CounterClaimForDivorce\n\nA docassemble extension.\n\n## Author\n\njmurphy10@su.suffolk.edu\n\n',
+      long_description='# docassemble.CounterClaimForDivorce\r\n\r\nA docassemble extension.\r\n\r\n## Author\r\n\r\njmurphy10@su.suffolk.edu\r\n\r\n',
       long_description_content_type='text/markdown',
       author='',
       author_email='jmurphy10@su.suffolk.edu',
