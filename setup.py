@@ -43,11 +43,11 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.CounterClaimForDivorce',
-      version='0.0.1',
+      version='0.0.3',
       description=('A docassemble extension.'),
-      long_description='# docassemble.CounterClaimForDivorce\r\n\r\nA docassemble extension.\r\n\r\n## Author\r\n\r\njmurphy10@su.suffolk.edu\r\n\r\n',
+      long_description='Counterclaim for Divorce form to be used in Massachusetts, USA.',
       long_description_content_type='text/markdown',
-      author='',
+      author='Tanner Murphy',
       author_email='jmurphy10@su.suffolk.edu',
       license='The MIT License (MIT)',
       url='https://docassemble.org',

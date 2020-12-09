@@ -1,8 +1,1 @@
-# docassemble.CounterClaimForDivorce
-
-A docassemble extension.
-
-## Author
-
-jmurphy10@su.suffolk.edu
-
+Counterclaim for Divorce form to be used in Massachusetts, USA.
