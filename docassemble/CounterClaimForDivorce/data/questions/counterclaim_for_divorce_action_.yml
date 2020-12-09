@@ -87,9 +87,10 @@ code: |
     pre_married_name
   plaintiff_signature_date
   set_progress(31.25)
-  if attorney_question is True:
+  if attorneys.there_are_any is True:
     attorney_phone_number
   server_name
+  server_signature
   # Set the answer file name.
   set_parts(subtitle=str(users))
   plaintiffs
@@ -110,19 +111,20 @@ code: |
   set_progress(56.25)
   plaintiffs[0].email
   attorneys
-  attorneys[0].address.address
-  set_progress(62.5)
-  attorneys[0].address.unit
-  attorneys[0].address.city
-  attorneys[0].address.state
-  attorneys[0].address.zip
-  attorneys[0].email
+  if attorneys.there_are_any is True:
+    attorneys[0].address.address
+    attorneys[0].address.unit
+    attorneys[0].address.city
+    attorneys[0].address.state
+    attorneys[0].address.zip
+    attorneys[0].email
   set_progress(68.75)
   # Save (anonymized) interview statistics.
   store_variables_snapshot(data={'zip': users[0].address.zip})
   counter_claim_for_divorce_action_preview_question # Pre-canned preview screen
   basic_questions_signature_flow
-  attorneys[0].signature
+  if attorneys.there_are_any is True:
+    attorneys[0].signature
   plaintiffs[0].signature
   counter_claim_for_divorce_action = True
 ---
@@ -413,7 +415,7 @@ fields:
 id: Attorney Question
 question: |
   Does the plaintiff have an attorney?
-yesno: attorney_question
+yesno: attorneys.there_are_any
 ---
 id: Attorney Information
 question: |
@@ -425,6 +427,14 @@ fields:
     maxlength: 37
   - 'Attorney BBO': attorney_bbo
     maxlength: 44
+---
+id: servers signature
+
+question: |
+  ${server_name}, please sign below
+signature: server_signature
+under: |
+  ${server_name}  
 ---
 id: Server Information
 question: |
