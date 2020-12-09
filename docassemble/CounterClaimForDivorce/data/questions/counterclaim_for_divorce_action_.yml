@@ -48,37 +48,47 @@ code: |
   allowed_courts = interview_metadata["counter_claim_for_divorce_action"]["allowed courts"]
   nav.set_section('review_counter_claim_for_divorce_action')
   user_role = 'plaintiff'
-  defenant_address_street
   marriage_address
-  last_residence_together_address
-  last_residence_together_date
-  children1
+  if residence_in_same_home is True:
+    last_residence_together_address
+    last_residence_together_date
+  if user_has_children is True:
+    children1
   set_progress(6.25)
-  other_claims
+  if other_claims_yes_no is True:
+    other_claims
   original_divorce_claim
   orginal_divorce_claim_date
   irretrievable_marriage_breakdown
-  irretrievable_marriage_breakdown_date
+  if irretrievable_marriage_breakdown is True:
+    irretrievable_marriage_breakdown_date
   set_progress(12.5)
   specific_incident
-  specific_incident_date
+  if specific_incident is True:
+    specific_incident_date
   grant_divorce_for_irretrievable_breakdown
   grant_children
-  grant_children_to_defendant
+  if grant_children is True:
+    grant_children_to_defendant
   set_progress(18.75)
   prohibit_defendant_impose_restraints
   order_support
-  order_support_for_plaintiff
+  if order_support is True:
+    order_support_for_plaintiff
   order_conveyance_real_estate
-  requested_conveyed_realestate_address
+  if order_conveyance_real_estate is True:
+    requested_conveyed_realestate_address
   set_progress(25.0)
   allow_former_name
-  former_name
+  if allow_former_name is True:
+    former_name
   request_pre_married_name
-  pre_married_name
+  if request_pre_married_name is True:
+    pre_married_name
   plaintiff_signature_date
   set_progress(31.25)
-  attorney_phone_number
+  if attorney_question is True:
+    attorney_phone_number
   server_name
   # Set the answer file name.
   set_parts(subtitle=str(users))
@@ -134,33 +144,28 @@ subquestion: |
   
    ${ pdf_concatenate(counter_claim_for_divorce_action_attachment['preview'], filename='counter_claim_for_divorce_action.pdf')}
 ---
-id: Delete this
-question: |
-  Delete this
-subquestion: |
-  Placeholder text
-fields:
-  - 'Defenant address street': defenant_address_street
-    maxlength: 24
----
 id: Marriage with Defendant
 question: |
   Marriage with Defendant
 subquestion: |
-  Where and when were the plaintiff and defendant married?
+  
 fields:
   - 'Marriage Address': marriage_address
     maxlength: 39
   - 'Marriage Date': marriage_date
     datatype: date
 ---
+id: Residence
+question: Have the plaintiff and defendant ever lived together in the same home?
+yesno: residence_in_same_home
+---
 id: Residence Together
 question: |
   Residence Together
 subquestion: |
-  Please provide the address where the defendant and plaintiff last lived together.
+  Please provide the address where the plaintiff and defendant last lived together.
 fields:
-  - 'Address of last residence shared with defendant': last_residence_together_address
+  - 'Address': last_residence_together_address
     maxlength: 39
 ---
 id: Residence Together Continued
@@ -172,6 +177,11 @@ fields:
   - 'Date of last residence shared with defendant': last_residence_together_date
     datatype: date
 ---
+id: UserHasChildren
+question: |
+  Does the plaintiff have children with the defendant?
+yesno: user_has_children
+---
 id: Children
 question: |
   Children
@@ -179,10 +189,10 @@ subquestion: |
   Please list the name and birthdates of any minor children that the plaintiff and defendant have together from their current marriage.
 fields:
   - "First child's name": children1
-    required: False
+    required: True
     maxlength: 25
   - 'Date of children1 birth': children1_birth_date
-    required: False
+    required: True
     datatype: date
   - "Second child's name": children2
     required: False
@@ -204,30 +214,35 @@ fields:
     datatype: date
   
 ---
+id: OtherClaims
+question: |
+  Besides the Original Complaint for Divorce action, filed by the defendant, has either party brought any claims against the other?
+yesno: other_claims_yes_no
+---
 id: Other Claims
 question: |
-  Other Claims
+  Please list those other claims.
 subquestion: |
-  If applicable, please list any other claims that have been brought by one party against the other with the exception of the Original Complaint for Divorce
+  
 fields:
   - 'Other claims': other_claims
-    required: False
+    required: True
     maxlength: 94
 ---
 id: Original Complaint for Divorce
 question: |
   Original Complaint for Divorce
 subquestion: |
-  Please certify that, except for the action or actions just listed, no previous action for divorce, annulment or affirmation of marriage, separate support, custody of children, support, or protection from abuse, has been brought by either party against the other.
+  Please certify that, except for the actions just listed and the original Complaint for Divorce action, no other claims have been filed by either party against the other.
 yesno: original_divorce_claim
 ---
 id: Original Complaint for Divorce Continued
 question: |
-  Original Complaint for Divorce Continued
+  Date original Complaint for Divorce action was filed in this court.
 subquestion: |
-  Please provide the date the original Complaint for Divorce was filed in this court.
+  
 fields:
-  - 'Date original Complaint for Divorce was filed': orginal_divorce_claim_date
+  - 'Date': orginal_divorce_claim_date
     datatype: date
 ---
 id: Irretrievable Breakdown of Marriage
@@ -250,17 +265,16 @@ id: Other Reasons for Divorce
 question: |
   Other Reasons for Divorce
 subquestion: |
-  In addition to an irretrievable break down of marriage, other reasons for divorce include adultery, impotency, desertion continued for one year, gross and confirmed habits of intoxication, cruel and abusive treatment, or neglecting to provide suitable support. Please check the box if one of those reasons applies in this case.
+  Has the defendant committed any of the following acts against the plaintiff: adultery, impotency, desertion continued for one year, gross and confirmed habits of intoxication, cruel and abusive treatment, neglect in providing suitable support. 
 yesno: specific_incident
 ---
 id: Other Reasons for Divorce Continued
 question: |
-  Other Reasons for Divorce Continued
+  Which one and on what date?
 subquestion: |
-  Please select the specific reason for divorce as well as provide the date that it occured.
+  
 fields:
   - 'Date of specific incident': specific_incident_date
-    required: False
     datatype: date
   - 'Non support': non_support
     datatype: yesno
@@ -396,6 +410,11 @@ fields:
   - 'Plaintiff phone number': plaintiff_phone_number
     maxlength: 37
 ---
+id: Attorney Question
+question: |
+  Does the plaintiff have an attorney?
+yesno: attorney_question
+---
 id: Attorney Information
 question: |
   Attorney Information
@@ -432,7 +451,7 @@ question: |
 subquestion: |
   Placeholder text
 fields:
-  - 'Specific incident  2': specific_incident
+  - 'Specific incident  2': specific_incidentx
     maxlength: 53
 ---
 progress: 100
@@ -488,7 +507,7 @@ attachment:
       - "attorney_address_zip": ${ attorneys[0].address.zip }
       - "attorney_email": ${ attorneys[0].email }
       - "defendant__4": ${ defendants }
-      - "defenant_address_street": ${ defenant_address_street }
+      - "defenant_address_street": ${ defendants[0].address.address }
       - "marriage_address": ${ marriage_address }
       - "marriage_date": ${ marriage_date }
       - "last_residence_together_address": ${ last_residence_together_address }
@@ -553,10 +572,7 @@ question: |
 subquestion: |
   Edit your answers below
 review: 
-  - Edit: defenant_address_street
-    button: |
-      Defenant address street:
-      ${ defenant_address_street }
+  
   - Edit: marriage_address
     button: |
       Marriage Address:
