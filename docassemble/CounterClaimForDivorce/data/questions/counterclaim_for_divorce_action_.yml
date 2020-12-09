@@ -208,9 +208,10 @@ id: Other Claims
 question: |
   Other Claims
 subquestion: |
-  Please list any other claims that have been brought by one party against the other with the exception of the Original Complaint for Divorce
+  If applicable, please list any other claims that have been brought by one party against the other with the exception of the Original Complaint for Divorce
 fields:
   - 'Other claims': other_claims
+    required: False
     maxlength: 94
 ---
 id: Original Complaint for Divorce
@@ -249,7 +250,7 @@ id: Other Reasons for Divorce
 question: |
   Other Reasons for Divorce
 subquestion: |
-  In addition to an irretrievable break down of marriage, other reasons for divorce include adultery, impotency, utter desertion continued for one year, gross and confirmed habits of intoxication, cruel and abusive treatment, or neglecting to provide suitable support and maintenance for the other spouse. Please check the box if one of those reasons applies in this case.
+  In addition to an irretrievable break down of marriage, other reasons for divorce include adultery, impotency, desertion continued for one year, gross and confirmed habits of intoxication, cruel and abusive treatment, or neglecting to provide suitable support. Please check the box if one of those reasons applies in this case.
 yesno: specific_incident
 ---
 id: Other Reasons for Divorce Continued
@@ -259,6 +260,7 @@ subquestion: |
   Please select the specific reason for divorce as well as provide the date that it occured.
 fields:
   - 'Date of specific incident': specific_incident_date
+    required: False
     datatype: date
   - 'Non support': non_support
     datatype: yesno
