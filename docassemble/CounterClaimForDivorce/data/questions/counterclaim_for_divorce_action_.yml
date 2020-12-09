@@ -179,21 +179,30 @@ subquestion: |
   Please list the name and birthdates of any minor children that the plaintiff and defendant have together from their current marriage.
 fields:
   - "First child's name": children1
+    required: False
     maxlength: 25
   - 'Date of children1 birth': children1_birth_date
+    required: False
     datatype: date
   - "Second child's name": children2
+    required: False
     maxlength: 25
   - 'Date of children2 birth': children2_birth_date
+    required: False
     datatype: date
   - "Third child's name": children3
-    maxlength: 24
-  - 'Date of children4 birth': children4_birth_date
-    datatype: date
+    required: False
+    maxlength: 25
   - 'Date of children3 birth': children3_birth_date
+    required: False
     datatype: date
   - "Fourth child's name": children4
+    required: False
     maxlength: 25
+  - 'Date of children4 birth': children4_birth_date
+    required: False
+    datatype: date
+  
 ---
 id: Other Claims
 question: |
