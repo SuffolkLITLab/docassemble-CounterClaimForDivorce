@@ -48,39 +48,7 @@ code: |
   allowed_courts = interview_metadata["counter_claim_for_divorce_action"]["allowed courts"]
   nav.set_section('review_counter_claim_for_divorce_action')
   user_role = 'plaintiff'
-  defenant_address_street
-  marriage_address
-  last_residence_together_address
-  last_residence_together_date
-  children1
-  set_progress(6.25)
-  other_claims
-  original_divorce_claim
-  orginal_divorce_claim_date
-  irretrievable_marriage_breakdown
-  irretrievable_marriage_breakdown_date
-  set_progress(12.5)
-  specific_incident
-  specific_incident_date
-  grant_divorce_for_irretrievable_breakdown
-  grant_children
-  grant_children_to_defendant
-  set_progress(18.75)
-  prohibit_defendant_impose_restraints
-  order_support
-  order_support_for_plaintiff
-  order_conveyance_real_estate
-  requested_conveyed_realestate_address
-  set_progress(25.0)
-  allow_former_name
-  former_name
-  request_pre_married_name
-  pre_married_name
-  plaintiff_signature_date
-  set_progress(31.25)
-  attorney_phone_number
-  server_name
-  # Set the answer file name.
+    # Set the answer file name.
   set_parts(subtitle=str(users))
   plaintiffs
   set_progress(37.5)
@@ -99,20 +67,48 @@ code: |
   defendants[0].address.state
   set_progress(56.25)
   plaintiffs[0].email
-  attorneys
-  attorneys[0].address.address
-  set_progress(62.5)
-  attorneys[0].address.unit
-  attorneys[0].address.city
-  attorneys[0].address.state
-  attorneys[0].address.zip
-  attorneys[0].email
+  plaintiff_signature_date
+  marriage_address
+  if residence_in_same_home is True:
+    last_residence_together_address
+    last_residence_together_date
+  if user_has_children is True:
+    children1
+  set_progress(6.25)
+  if other_claims_yes_no is True:
+    other_claims
+  original_divorce_claim
+  orginal_divorce_claim_date
+  irretrievable_marriage_breakdown
+  if irretrievable_marriage_breakdown is True:
+    irretrievable_marriage_breakdown_date
+  set_progress(12.5)
+  specific_incident
+  if specific_incident is True:
+    specific_incident_date
+  grant_divorce_for_irretrievable_breakdown
+  grant_children
+  if grant_children is True:
+    grant_children_to_defendant
+  set_progress(18.75)
+  prohibit_defendant_impose_restraints
+  order_support
+  if order_support is True:
+    order_support_for_plaintiff
+  order_conveyance_real_estate
+  set_progress(25.0)
+  allow_former_name
+  if allow_former_name is True:
+    former_name
+  set_progress(31.25)
+  server_name
+  server_signature
+
   set_progress(68.75)
   # Save (anonymized) interview statistics.
   store_variables_snapshot(data={'zip': users[0].address.zip})
   counter_claim_for_divorce_action_preview_question # Pre-canned preview screen
   basic_questions_signature_flow
-  attorneys[0].signature
   plaintiffs[0].signature
   counter_claim_for_divorce_action = True
 ---
@@ -123,7 +119,7 @@ continue button field: counter_claim_for_divorce_action_intro
 question: |
   Counter Claim for Divorce Action
 subquestion: |
-  Counter claim for divorce action
+ 
 ---
 id: Review your form before you sign it
 continue button field: counter_claim_for_divorce_action_preview_question
@@ -134,43 +130,42 @@ subquestion: |
   
    ${ pdf_concatenate(counter_claim_for_divorce_action_attachment['preview'], filename='counter_claim_for_divorce_action.pdf')}
 ---
-id: Delete this
-question: |
-  Delete this
-subquestion: |
-  Placeholder text
-fields:
-  - 'Defenant address street': defenant_address_street
-    maxlength: 24
----
 id: Marriage with Defendant
 question: |
-  Marriage with Defendant
+  Marriage with the Other Party
 subquestion: |
-  Where and when were the plaintiff and defendant married?
+  
 fields:
   - 'Marriage Address': marriage_address
     maxlength: 39
   - 'Marriage Date': marriage_date
     datatype: date
 ---
+id: Residence
+question: |
+  Have you and the other party ever lived in the same home?
+yesno: residence_in_same_home
+---
 id: Residence Together
 question: |
-  Residence Together
+  Where?
 subquestion: |
-  Please provide the address where the defendant and plaintiff last lived together.
 fields:
-  - 'Address of last residence shared with defendant': last_residence_together_address
+  - 'Address': last_residence_together_address
     maxlength: 39
 ---
 id: Residence Together Continued
 question: |
-  Residence Together Continued
+  On what date did you stop living together?
 subquestion: |
-  Please provide the date that the plaintiff and defendant last lived together at the previously given address.
 fields:
-  - 'Date of last residence shared with defendant': last_residence_together_date
+  - 'Date': last_residence_together_date
     datatype: date
+---
+id: UserHasChildren
+question: |
+  Do you have any children with the other side?
+yesno: user_has_children
 ---
 id: Children
 question: |
@@ -179,59 +174,74 @@ subquestion: |
   Please list the name and birthdates of any minor children that the plaintiff and defendant have together from their current marriage.
 fields:
   - "First child's name": children1
+    required: True
     maxlength: 25
-  - 'Date of children1 birth': children1_birth_date
+  - 'DOB': children1_birth_date
+    required: True
     datatype: date
   - "Second child's name": children2
+    required: False
     maxlength: 25
-  - 'Date of children2 birth': children2_birth_date
+  - 'DOB': children2_birth_date
+    required: False
     datatype: date
   - "Third child's name": children3
-    maxlength: 24
-  - 'Date of children4 birth': children4_birth_date
-    datatype: date
-  - 'Date of children3 birth': children3_birth_date
+    required: False
+    maxlength: 25
+  - 'DOB': children3_birth_date
+    required: False
     datatype: date
   - "Fourth child's name": children4
+    required: False
     maxlength: 25
+  - 'DOB': children4_birth_date
+    required: False
+    datatype: date
+  
+---
+id: OtherClaims
+question: |
+  Besides the Original Complaint for Divorce action, has either party brought any claims against the other?
+yesno: other_claims_yes_no
 ---
 id: Other Claims
 question: |
-  Other Claims
+  Please list those other claims.
 subquestion: |
-  Please list any other claims that have been brought by one party against the other with the exception of the Original Complaint for Divorce
+  
 fields:
   - 'Other claims': other_claims
+    required: True
     maxlength: 94
 ---
 id: Original Complaint for Divorce
 question: |
   Original Complaint for Divorce
 subquestion: |
-  Please certify that, except for the action or actions just listed, no previous action for divorce, annulment or affirmation of marriage, separate support, custody of children, support, or protection from abuse, has been brought by either party against the other.
+  Please certify that, except for the actions just listed and the original Complaint for Divorce action, no other claims have been filed by either party against the other.
 yesno: original_divorce_claim
 ---
 id: Original Complaint for Divorce Continued
 question: |
-  Original Complaint for Divorce Continued
+  Date original Complaint for Divorce action was filed in this court.
 subquestion: |
-  Please provide the date the original Complaint for Divorce was filed in this court.
+  
 fields:
-  - 'Date original Complaint for Divorce was filed': orginal_divorce_claim_date
+  - 'Date': orginal_divorce_claim_date
     datatype: date
 ---
 id: Irretrievable Breakdown of Marriage
 question: |
   Irretrievable Breakdown of Marriage
 subquestion: |
-  In Massachusetts, an "irretrievable breakdown of the marriage" occurs when one or both spouses are unable or unwilling to live together, and there are no prospects for reconciliation. Please check the box if that is the case.
+  In Massachusetts, an "irretrievable breakdown of the marriage" occurs when one or both spouses are unable or unwilling to live together and there are no prospects for reconciliation. Is that the case?
 yesno: irretrievable_marriage_breakdown
 ---
 id: Irretrievable Breakdown of Marriage Continued
 question: |
-  Irretrievable Breakdown of Marriage Continued
+  About when the irretrievable breakdown of marriage occurr?
 subquestion: |
-  Please provide about when the irretrievable breakdown of marriage occurred.
+
 fields:
   - 'Date of irretrievable marriage breakdown': irretrievable_marriage_breakdown_date
     datatype: date
@@ -240,16 +250,16 @@ id: Other Reasons for Divorce
 question: |
   Other Reasons for Divorce
 subquestion: |
-  In addition to an irretrievable break down of marriage, other reasons for divorce include adultery, impotency, utter desertion continued for one year, gross and confirmed habits of intoxication, cruel and abusive treatment, or neglecting to provide suitable support and maintenance for the other spouse. Please check the box if one of those reasons applies in this case.
+  Has the defendant committed any of the following acts against the plaintiff: adultery, impotency, desertion continued for one year, gross and confirmed habits of intoxication, cruel and abusive treatment, neglect in providing suitable support. 
 yesno: specific_incident
 ---
 id: Other Reasons for Divorce Continued
 question: |
-  Other Reasons for Divorce Continued
+  Which one and on what date?
 subquestion: |
-  Please select the specific reason for divorce as well as provide the date that it occured.
+  
 fields:
-  - 'Date of specific incident': specific_incident_date
+  - 'Date': specific_incident_date
     datatype: date
   - 'Non support': non_support
     datatype: yesno
@@ -265,12 +275,13 @@ fields:
     datatype: yesno
   - 'Prison more than five years': prison_more_than_five_years
     datatype: yesno
+  
 ---
 id: Requests to the Court
 question: |
   Requests to the Court
 subquestion: |
-  Please select the reason that plaintiff wishes for the court to grant a divorce.
+  Please select the reason that you'd like the court to grant the divorce. You may select both. 
 fields:
   - 'Grant divorce for irretrievable breakdown': grant_divorce_for_irretrievable_breakdown
     datatype: yesno
@@ -281,14 +292,14 @@ id: Custody of Children
 question: |
   Custody of Children
 subquestion: |
-  Please indicate whether the plaintiff would like to request that the court grant custody of the children to a specific person.
+  Would you like for the court to grant custody of children to a specific individual?
 yesno: grant_children
 ---
 id: Custody of Children Continued
 question: |
-  Custody of Children Continued
+  Would you like for the court to grant custody of the children to yourself or the other party?
 subquestion: |
-  Please indicate whether the plaintiff would like to request that the court grant custody of the children to either the plaintiff or the defendant.
+
 fields:
   - 'Grant children to defendant': grant_children_to_defendant
     datatype: yesno
@@ -299,21 +310,21 @@ id: Limits on Restraints
 question: |
   Limits on Restraints
 subquestion: |
-  Please indicate whether the plaintiff would like to request that the court prohibits the defendant from imposing any restraints on the plaintiff's personal liberty.
+  Would you like to request that the court prohibit the defendant from imposing any restraints on your personal liberty?
 yesno: prohibit_defendant_impose_restraints
 ---
 id: Financial Support
 question: |
   Financial Support
 subquestion: |
-  Please indicate whether the plaintiff would like to request that the court order support of the plaintiff and/or children with a suitable provision for health insurance.
+  Would you like to request that the court order support of the plaintiff and/or children with a suitable provision for health insurance?
 yesno: order_support
 ---
 id: Financial Support Continued
 question: |
-  Financial Support Continued
+  Who would you like the court to order support for?
 subquestion: |
-  Please select who the plaintiff would like the court to order support for.
+  
 fields:
   - 'Order support for plaintiff': order_support_for_plaintiff
     datatype: yesno
@@ -324,77 +335,42 @@ id: Real Estate
 question: |
   Real Estate
 subquestion: |
-  Please indicate whether the plaintiff would like to request that the court order conveyance of any real estate.
+  Would like to request that the court transfer any real estate?
 yesno: order_conveyance_real_estate
----
-id: Real Estate Continued
-question: |
-  Real Estate Continued
-subquestion: |
-  Please provide more information on the real estate referred to in the last question.
-fields:
-  - 'Requested conveyed realestate address': requested_conveyed_realestate_address
-    maxlength: 31
-  - 'Registry deeds town': registry_deeds_town
-    maxlength: 17
-  - 'Registry deeds book': registry_deeds_book
-    maxlength: 14
-  - 'Registry deeds book page': registry_deeds_book_page
-    maxlength: 9
+
 ---
 id: Name Change
 question: |
   Name Change
 subquestion: |
-  Please indicate whether the plaintiff would like to resume using his/her name.
+  Would you like to resume using your former, pre-married, name?
 yesno: allow_former_name
 ---
 id: Name Change Continued
 question: |
-  Name Change Continued
+  Please list your former, pre-married, name. 
 subquestion: |
-  Current Name
+
 fields:
   - 'Former name': former_name
     maxlength: 44
 ---
-id: Pre Married Name
-question: |
-  Pre-Married Name
-subquestion: |
-  Please indicated whether plaintiff would like to revert back to his/her pre-married name.
-yesno: request_pre_married_name
----
-id: Pre Married Name Continued
-question: |
-  Pre-Married Name Continued
-subquestion: |
-  Pre-married Name
-fields:
-  - 'Pre married name': pre_married_name
-    maxlength: 87
----
 id: Plaintiff
 question: |
-  Plaintiff
+  Date
 subquestion: |
-  not sure
+  
 fields:
-  - 'Date of plaintiff signature': plaintiff_signature_date
+  - "Today's Date": plaintiff_signature_date
     datatype: date
-  - 'Plaintiff phone number': plaintiff_phone_number
-    maxlength: 37
 ---
-id: Attorney Information
+id: servers signature
+
 question: |
-  Attorney Information
-subquestion: |
-  Plaintiff's Attorney
-fields:
-  - 'Attorney phone number': attorney_phone_number
-    maxlength: 37
-  - 'Attorney BBO': attorney_bbo
-    maxlength: 44
+  ${server_name}, please sign below
+signature: server_signature
+under: |
+  ${server_name}  
 ---
 id: Server Information
 question: |
@@ -421,7 +397,7 @@ question: |
 subquestion: |
   Placeholder text
 fields:
-  - 'Specific incident  2': specific_incident
+  - 'Specific incident  2': specific_incidentx
     maxlength: 53
 ---
 progress: 100
@@ -468,16 +444,8 @@ attachment:
       - "plaintiff__3": ${ plaintiffs }
       - "plaintiff_email": ${ plaintiffs[0].email }
       # If it is a signature, test which file version we're expecting. leave it empty unless it's the final attachment version
-      - "attorney_signature": ${ attorneys[0].signature if i == 'final' else '' }
-      - "attorney": ${ attorneys }
-      - "attorney_address_street": ${ attorneys[0].address.address }
-      - "attorney_address_street2": ${ attorneys[0].address.unit }
-      - "attorney_address_city": ${ attorneys[0].address.city }
-      - "attorney_address_state": ${ attorneys[0].address.state }
-      - "attorney_address_zip": ${ attorneys[0].address.zip }
-      - "attorney_email": ${ attorneys[0].email }
       - "defendant__4": ${ defendants }
-      - "defenant_address_street": ${ defenant_address_street }
+      - "defenant_address_street": ${ defendants[0].address.address }
       - "marriage_address": ${ marriage_address }
       - "marriage_date": ${ marriage_date }
       - "last_residence_together_address": ${ last_residence_together_address }
@@ -514,19 +482,10 @@ attachment:
       - "order_support_for_plaintiff": ${ order_support_for_plaintiff }
       - "order_support_for_children": ${ order_support_for_children }
       - "order_support": ${ order_support }
-      - "requested_conveyed_realestate_address": ${ requested_conveyed_realestate_address }
       - "order_conveyance_real_estate": ${ order_conveyance_real_estate }
-      - "registry_deeds_town": ${ registry_deeds_town }
-      - "registry_deeds_book": ${ registry_deeds_book }
-      - "registry_deeds_book_page": ${ registry_deeds_book_page }
       - "former_name": ${ former_name }
       - "allow_former_name": ${ allow_former_name }
-      - "pre_married_name": ${ pre_married_name }
-      - "request_pre_married_name": ${ request_pre_married_name }
       - "plaintiff_signature_date": ${ plaintiff_signature_date }
-      - "plaintiff_phone_number": ${ plaintiff_phone_number }
-      - "attorney_phone_number": ${ attorney_phone_number }
-      - "attorney_bbo": ${ attorney_bbo }
       - "server_name": ${ server_name }
       - "hand_delivery": ${ hand_delivery }
       - "first_class_mail": ${ first_class_mail }
@@ -542,10 +501,7 @@ question: |
 subquestion: |
   Edit your answers below
 review: 
-  - Edit: defenant_address_street
-    button: |
-      Defenant address street:
-      ${ defenant_address_street }
+  
   - Edit: marriage_address
     button: |
       Marriage Address:
@@ -686,26 +642,10 @@ review:
     button: |
       Order support:
       ${ word(yesno(order_support)) }
-  - Edit: requested_conveyed_realestate_address
-    button: |
-      Requested conveyed realestate address:
-      ${ requested_conveyed_realestate_address }
   - Edit: order_conveyance_real_estate
     button: |
       Order conveyance real estate:
       ${ word(yesno(order_conveyance_real_estate)) }
-  - Edit: registry_deeds_town
-    button: |
-      Registry deeds town:
-      ${ registry_deeds_town }
-  - Edit: registry_deeds_book
-    button: |
-      Registry deeds book:
-      ${ registry_deeds_book }
-  - Edit: registry_deeds_book_page
-    button: |
-      Registry deeds book page:
-      ${ registry_deeds_book_page }
   - Edit: former_name
     button: |
       Former name:
@@ -714,30 +654,10 @@ review:
     button: |
       Allow former name:
       ${ word(yesno(allow_former_name)) }
-  - Edit: pre_married_name
-    button: |
-      Pre married name:
-      ${ pre_married_name }
-  - Edit: request_pre_married_name
-    button: |
-      Request pre married name:
-      ${ word(yesno(request_pre_married_name)) }
   - Edit: plaintiff_signature_date
     button: |
       Date of plaintiff signature:
       ${ plaintiff_signature_date.format() }
-  - Edit: plaintiff_phone_number
-    button: |
-      Plaintiff phone number:
-      ${ plaintiff_phone_number }
-  - Edit: attorney_phone_number
-    button: |
-      Attorney phone number:
-      ${ attorney_phone_number }
-  - Edit: attorney_bbo
-    button: |
-      Attorney BBO:
-      ${ attorney_bbo }
   - Edit: server_name
     button: |
       Server name:
@@ -818,38 +738,6 @@ review:
     button: |
       plaintiffs[0].email:
       ${ plaintiffs[0].email }
-  - Edit: attorneys[0].signature
-    button: |
-      attorneys[0].signature:
-      ${ attorneys[0].signature }
-  - Edit: attorneys
-    button: |
-      attorneys:
-      ${ attorneys }
-  - Edit: attorneys[0].address.address
-    button: |
-      attorneys[0].address.address:
-      ${ attorneys[0].address.address }
-  - Edit: attorneys[0].address.unit
-    button: |
-      attorneys[0].address.unit:
-      ${ attorneys[0].address.unit }
-  - Edit: attorneys[0].address.city
-    button: |
-      attorneys[0].address.city:
-      ${ attorneys[0].address.city }
-  - Edit: attorneys[0].address.state
-    button: |
-      attorneys[0].address.state:
-      ${ attorneys[0].address.state }
-  - Edit: attorneys[0].address.zip
-    button: |
-      attorneys[0].address.zip:
-      ${ attorneys[0].address.zip }
-  - Edit: attorneys[0].email
-    button: |
-      attorneys[0].email:
-      ${ attorneys[0].email }
   - Edit: server_signature
     button: |
       server_signature:
