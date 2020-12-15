@@ -101,8 +101,8 @@ code: |
   if allow_former_name is True:
     former_name
   set_progress(31.25)
-  server_name
-  server_signature
+  hand_delivery
+ 
 
   set_progress(68.75)
   # Save (anonymized) interview statistics.
@@ -164,7 +164,7 @@ fields:
 ---
 id: UserHasChildren
 question: |
-  Do you have any children with the other side?
+  Do you have any children with the other party?
 yesno: user_has_children
 ---
 id: Children
@@ -201,7 +201,7 @@ fields:
 ---
 id: OtherClaims
 question: |
-  Besides the Original Complaint for Divorce action, has either party brought any claims against the other?
+  Besides the Original Complaint for Divorce action, has either party brought any other claims against the other?
 yesno: other_claims_yes_no
 ---
 id: Other Claims
@@ -239,11 +239,11 @@ yesno: irretrievable_marriage_breakdown
 ---
 id: Irretrievable Breakdown of Marriage Continued
 question: |
-  About when the irretrievable breakdown of marriage occurr?
+  About when did the irretrievable breakdown of marriage occurr?
 subquestion: |
 
 fields:
-  - 'Date of irretrievable marriage breakdown': irretrievable_marriage_breakdown_date
+  - 'Date': irretrievable_marriage_breakdown_date
     datatype: date
 ---
 id: Other Reasons for Divorce
@@ -259,22 +259,10 @@ question: |
 subquestion: |
   
 fields:
+  - 'Please list': other_divorce_reason
   - 'Date': specific_incident_date
     datatype: date
-  - 'Non support': non_support
-    datatype: yesno
-  - 'Cruel abusive treatment': cruel_abusive_treatment
-    datatype: yesno
-  - 'Gross confirmed intoxication': gross_confirmed_intoxication
-    datatype: yesno
-  - 'Desertion': desertion
-    datatype: yesno
-  - 'Adultery': adultery
-    datatype: yesno
-  - 'Impotency': impotency
-    datatype: yesno
-  - 'Prison more than five years': prison_more_than_five_years
-    datatype: yesno
+  
   
 ---
 id: Requests to the Court
@@ -310,14 +298,14 @@ id: Limits on Restraints
 question: |
   Limits on Restraints
 subquestion: |
-  Would you like to request that the court prohibit the defendant from imposing any restraints on your personal liberty?
+  Would you like to request that the court prohibit the other side from imposing any restraints on your personal liberty?
 yesno: prohibit_defendant_impose_restraints
 ---
 id: Financial Support
 question: |
   Financial Support
 subquestion: |
-  Would you like to request that the court order support of the plaintiff and/or children with a suitable provision for health insurance?
+  Would you like to request that the court order support of yourself and/or children with a suitable provision for health insurance?
 yesno: order_support
 ---
 id: Financial Support Continued
@@ -335,7 +323,7 @@ id: Real Estate
 question: |
   Real Estate
 subquestion: |
-  Would like to request that the court transfer any real estate?
+  Would you like to request that the court transfer any real estate?
 yesno: order_conveyance_real_estate
 
 ---
@@ -364,22 +352,12 @@ fields:
   - "Today's Date": plaintiff_signature_date
     datatype: date
 ---
-id: servers signature
-
-question: |
-  ${server_name}, please sign below
-signature: server_signature
-under: |
-  ${server_name}  
----
 id: Server Information
 question: |
-  Server Information
+  Service Information
 subquestion: |
-  Please provide information on the server and service of the form.
+  How, when, and where did you serve the other side?
 fields:
-  - 'Server name': server_name
-    maxlength: 42
   - 'Hand delivery': hand_delivery
     datatype: yesno
   - 'First class mail': first_class_mail
@@ -388,8 +366,6 @@ fields:
     datatype: date
   - 'Service address': service_address
     maxlength: 56
-  - 'Date of server signature': server_signature_date
-    datatype: date
 ---
 id: need to figure this one out
 question: |
@@ -465,13 +441,8 @@ attachment:
       - "irretrievable_marriage_breakdown": ${ irretrievable_marriage_breakdown }
       - "specific_incident_date": ${ specific_incident_date }
       - "specific_incident": ${ specific_incident }
-      - "non_support": ${ non_support }
-      - "cruel_abusive_treatment": ${ cruel_abusive_treatment }
-      - "gross_confirmed_intoxication": ${ gross_confirmed_intoxication }
-      - "desertion": ${ desertion }
-      - "adultery": ${ adultery }
-      - "impotency": ${ impotency }
-      - "prison_more_than_five_years": ${ prison_more_than_five_years }
+      - "other_divorce_reason": ${ other_divorce_reason }
+      - "other_divorce_reason__2": ${ other_divorce_reason }
       - "grant_divorce_for_irretrievable_breakdown": ${ grant_divorce_for_irretrievable_breakdown }
       - "specific_incident__2": ${ specific_incident }
       - "grant_divorce_for_specific_incident": ${ grant_divorce_for_specific_incident }
@@ -486,13 +457,13 @@ attachment:
       - "former_name": ${ former_name }
       - "allow_former_name": ${ allow_former_name }
       - "plaintiff_signature_date": ${ plaintiff_signature_date }
-      - "server_name": ${ server_name }
+      - "server_name": ${ plaintiffs[0].name }
       - "hand_delivery": ${ hand_delivery }
       - "first_class_mail": ${ first_class_mail }
       - "service_date": ${ service_date }
       - "service_address": ${ service_address }
-      - "server_signature_date": ${ server_signature_date }
-      - "server_signature": ${ server_signature }
+      - "server_signature_date": ${ plaintiff_signature_date }
+      - "server_signature": ${ plaintiffs[0].signature if i == 'final' else '' }
 ---
 id: counter_claim_for_divorce_action review screen
 event: review_counter_claim_for_divorce_action
@@ -578,34 +549,6 @@ review:
     button: |
       Specific incident:
       ${ word(yesno(specific_incident)) }
-  - Edit: non_support
-    button: |
-      Non support:
-      ${ word(yesno(non_support)) }
-  - Edit: cruel_abusive_treatment
-    button: |
-      Cruel abusive treatment:
-      ${ word(yesno(cruel_abusive_treatment)) }
-  - Edit: gross_confirmed_intoxication
-    button: |
-      Gross confirmed intoxication:
-      ${ word(yesno(gross_confirmed_intoxication)) }
-  - Edit: desertion
-    button: |
-      Desertion:
-      ${ word(yesno(desertion)) }
-  - Edit: adultery
-    button: |
-      Adultery:
-      ${ word(yesno(adultery)) }
-  - Edit: impotency
-    button: |
-      Impotency:
-      ${ word(yesno(impotency)) }
-  - Edit: prison_more_than_five_years
-    button: |
-      Prison more than five years:
-      ${ word(yesno(prison_more_than_five_years)) }
   - Edit: grant_divorce_for_irretrievable_breakdown
     button: |
       Grant divorce for irretrievable breakdown:
@@ -658,10 +601,6 @@ review:
     button: |
       Date of plaintiff signature:
       ${ plaintiff_signature_date.format() }
-  - Edit: server_name
-    button: |
-      Server name:
-      ${ server_name }
   - Edit: hand_delivery
     button: |
       Hand delivery:
@@ -678,10 +617,6 @@ review:
     button: |
       Service address:
       ${ service_address }
-  - Edit: server_signature_date
-    button: |
-      Date of server signature:
-      ${ server_signature_date.format() }
   - Edit: plaintiffs
     button: |
       plaintiffs:
@@ -738,7 +673,4 @@ review:
     button: |
       plaintiffs[0].email:
       ${ plaintiffs[0].email }
-  - Edit: server_signature
-    button: |
-      server_signature:
-      ${ server_signature }
+  
