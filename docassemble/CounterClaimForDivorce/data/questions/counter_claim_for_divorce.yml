@@ -209,7 +209,9 @@ question: |
   Original Complaint for Divorce
 subquestion: |
   Please certify that, except for the action or actions just listed, no previous action for divorce, annulment or affirmation of marriage, separate support, custody of children, support, or protection from abuse, has been brought by either party against the other.
-yesno: original_divorce_claim
+fields:
+  - no label: original_divorce_claim
+    datatype: yesnoradio
 ---
 id: Original Complaint for Divorce Continued
 question: |
@@ -225,7 +227,9 @@ question: |
   Irretrievable Breakdown of Marriage
 subquestion: |
   In Massachusetts, an "irretrievable breakdown of the marriage" occurs when one or both spouses are unable or unwilling to live together, and there are no prospects for reconciliation. Please check the box if that is the case.
-yesno: irretrievable_marriage_breakdown
+fields:
+  - no label: irretrievable_marriage_breakdown
+    datatype: yesnoradio
 ---
 id: Irretrievable Breakdown of Marriage Continued
 question: |
@@ -241,7 +245,9 @@ question: |
   Other Reasons for Divorce
 subquestion: |
   In addition to an irretrievable break down of marriage, other reasons for divorce include adultery, impotency, utter desertion continued for one year, gross and confirmed habits of intoxication, cruel and abusive treatment, or neglecting to provide suitable support and maintenance for the other spouse. Please check the box if one of those reasons applies in this case.
-yesno: specific_incident
+fields:
+  - no label: specific_incident
+    datatype: yesnoradio
 ---
 id: Other Reasons for Divorce Continued
 question: |
@@ -282,7 +288,9 @@ question: |
   Custody of Children
 subquestion: |
   Please indicate whether the plaintiff would like to request that the court grant custody of the children to a specific person.
-yesno: grant_children
+fields:
+  - no label: grant_children
+    datatype: yesnoradio
 ---
 id: Custody of Children Continued
 question: |
@@ -300,14 +308,18 @@ question: |
   Limits on Restraints
 subquestion: |
   Please indicate whether the plaintiff would like to request that the court prohibits the defendant from imposing any restraints on the plaintiff's personal liberty.
-yesno: prohibit_defendant_impose_restraints
+fields:
+  - no label: prohibit_defendant_impose_restraints
+    datatype: yesnoradio
 ---
 id: Financial Support
 question: |
   Financial Support
 subquestion: |
   Please indicate whether the plaintiff would like to request that the court order support of the plaintiff and/or children with a suitable provision for health insurance.
-yesno: order_support
+fields:
+  - no label: order_support
+    datatype: yesnoradio
 ---
 id: Financial Support Continued
 question: |
@@ -325,7 +337,9 @@ question: |
   Real Estate
 subquestion: |
   Please indicate whether the plaintiff would like to request that the court order conveyance of any real estate.
-yesno: order_conveyance_real_estate
+fields:
+  - no label: order_conveyance_real_estate
+    datatype: yesnoradio
 ---
 id: Real Estate Continued
 question: |
@@ -347,7 +361,9 @@ question: |
   Name Change
 subquestion: |
   Please indicate whether the plaintiff would like to resume using his/her name.
-yesno: allow_former_name
+fields:
+  - no label: allow_former_name
+    datatype: yesnoradio
 ---
 id: Name Change Continued
 question: |
@@ -363,7 +379,9 @@ question: |
   Pre-Married Name
 subquestion: |
   Please indicated whether plaintiff would like to revert back to his/her pre-married name.
-yesno: request_pre_married_name
+fields:
+  - no label: request_pre_married_name
+    datatype: yesnoradio
 ---
 id: Pre Married Name Continued
 question: |
