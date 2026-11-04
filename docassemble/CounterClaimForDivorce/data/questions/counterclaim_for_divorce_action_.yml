@@ -144,7 +144,9 @@ fields:
 id: Residence
 question: |
   Have you and the other party ever lived in the same home?
-yesno: residence_in_same_home
+fields:
+  - no label: residence_in_same_home
+    datatype: yesnoradio
 ---
 id: Residence Together
 question: |
@@ -165,7 +167,9 @@ fields:
 id: UserHasChildren
 question: |
   Do you have any children with the other party?
-yesno: user_has_children
+fields:
+  - no label: user_has_children
+    datatype: yesnoradio
 ---
 id: Children
 question: |
@@ -202,7 +206,9 @@ fields:
 id: OtherClaims
 question: |
   Besides the Original Complaint for Divorce action, has either party brought any other claims against the other?
-yesno: other_claims_yes_no
+fields:
+  - no label: other_claims_yes_no
+    datatype: yesnoradio
 ---
 id: Other Claims
 question: |
@@ -219,7 +225,9 @@ question: |
   Original Complaint for Divorce
 subquestion: |
   Please certify that, except for the actions just listed and the original Complaint for Divorce action, no other claims have been filed by either party against the other.
-yesno: original_divorce_claim
+fields:
+  - no label: original_divorce_claim
+    datatype: yesnoradio
 ---
 id: Original Complaint for Divorce Continued
 question: |
@@ -235,7 +243,9 @@ question: |
   Irretrievable Breakdown of Marriage
 subquestion: |
   In Massachusetts, an "irretrievable breakdown of the marriage" occurs when one or both spouses are unable or unwilling to live together and there are no prospects for reconciliation. Is that the case?
-yesno: irretrievable_marriage_breakdown
+fields:
+  - no label: irretrievable_marriage_breakdown
+    datatype: yesnoradio
 ---
 id: Irretrievable Breakdown of Marriage Continued
 question: |
@@ -251,7 +261,9 @@ question: |
   Other Reasons for Divorce
 subquestion: |
   Has the defendant committed any of the following acts against the plaintiff: adultery, impotency, desertion continued for one year, gross and confirmed habits of intoxication, cruel and abusive treatment, neglect in providing suitable support. 
-yesno: specific_incident
+fields:
+  - no label: specific_incident
+    datatype: yesnoradio
 ---
 id: Other Reasons for Divorce Continued
 question: |
@@ -281,7 +293,9 @@ question: |
   Custody of Children
 subquestion: |
   Would you like for the court to grant custody of children to a specific individual?
-yesno: grant_children
+fields:
+  - no label: grant_children
+    datatype: yesnoradio
 ---
 id: Custody of Children Continued
 question: |
@@ -299,14 +313,18 @@ question: |
   Limits on Restraints
 subquestion: |
   Would you like to request that the court prohibit the other side from imposing any restraints on your personal liberty?
-yesno: prohibit_defendant_impose_restraints
+fields:
+  - no label: prohibit_defendant_impose_restraints
+    datatype: yesnoradio
 ---
 id: Financial Support
 question: |
   Financial Support
 subquestion: |
   Would you like to request that the court order support of yourself and/or children with a suitable provision for health insurance?
-yesno: order_support
+fields:
+  - no label: order_support
+    datatype: yesnoradio
 ---
 id: Financial Support Continued
 question: |
@@ -324,7 +342,9 @@ question: |
   Real Estate
 subquestion: |
   Would you like to request that the court transfer any real estate?
-yesno: order_conveyance_real_estate
+fields:
+  - no label: order_conveyance_real_estate
+    datatype: yesnoradio
 
 ---
 id: Name Change
@@ -332,7 +352,9 @@ question: |
   Name Change
 subquestion: |
   Would you like to resume using your former, pre-married, name?
-yesno: allow_former_name
+fields:
+  - no label: allow_former_name
+    datatype: yesnoradio
 ---
 id: Name Change Continued
 question: |
